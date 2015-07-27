@@ -1,0 +1,11 @@
+{application, parse_pdu, [
+    {description, "Util to parse pdu from Just and Funnel logs"},
+    {vsn, git},
+    {registered, []},
+    {applications, [
+        kernel,
+        stdlib,
+        common_lib
+    ]},
+    {env, []}
+]}.
