@@ -16,10 +16,19 @@
 ).
 
 main([Log]) ->
-    parse(Log).
-
-parse(Log) ->
     Hex = strip_for_each_line(Log, length("2015-07-16 16:39:02.992 > [info] ")),
+    parse(Hex);
+main([_DoNotStrip, Log]) ->
+    parse(Log);
+main([]) ->
+    HelpMsg =
+    "1. To parse previous format hex with date preffix and \":\" delimiters:\n"
+    "\tparse_pdu \"<HexWithDelimeters>\"\n"
+    "2. To parse plain hex WITHOUT date preffix and \":\" delimiters:\n"
+    "\tparse_pdu plain \"<Hex>\"\n",
+    io:format(HelpMsg).
+
+parse(Hex) ->
     ?log("Hex: ~p", [Hex]),
     BinPdu = decode_hex(Hex),
     {ok, {CmdId, _Status, _SeqNum, _Body} = Pdu} = smpp_operation:unpack(BinPdu),
